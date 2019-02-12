@@ -33,10 +33,9 @@ def sigmoid(x):
 
 
 def NewtonMethod(X,Y):
-	theta=np.zeros((np.shape(X)[1],1))
-	epsilon=0.0000000001
+	theta=np.ones((np.shape(X)[1],1))
+	epsilon=0.0000001
 	delta=float('inf')
-	alpha=0.001
 	iter=0
 	while delta>epsilon:
 		# print("hello")
@@ -44,7 +43,7 @@ def NewtonMethod(X,Y):
 		tp=X.dot(theta)
 		sigv=sigmoid(tp)
 		g_v=(sigv)*(1.0-sigv)
-		idd=np.identity(np.shape(g_v)[0], dtype = float)
+		idd=np.zeros((np.shape(g_v)[0],np.shape(g_v)[0]))
 		for i in range(np.shape(g_v)[0]):
 			idd[i][i]=g_v[i]
 		D=idd
@@ -53,9 +52,9 @@ def NewtonMethod(X,Y):
 		except np.linalg.LinAlgError:
 			print("Singular Hessian")
 			return(theta)
-		diff=hess.dot(X.T).dot(Y-tp)
-		theta=theta+alpha*diff
-		delta=float(diff.max(axis=0))
+		diff=hess.dot(X.T).dot(Y-sigv)
+		theta=theta+diff
+		delta=float(np.abs(diff).max(axis=0))
 		iter+=1
 	return(theta)
 
@@ -64,12 +63,12 @@ theta=(NewtonMethod(X,Y))
 # Decision Boundary
 colors=["red","blue"]
 fig1, ax1 = plt.subplots()
-steps =500
+steps =100
 pltx1=np.linspace(-5,5,steps).reshape((steps,1))
 pltx2=np.linspace(-5,5,steps).reshape((steps,1))
 pltX1_mesh,pltX2_mesh=np.meshgrid(pltx1,pltx2)
 grid=np.zeros((steps,steps))
-approx=0.0001
+approx=0.01
 
 for i in range(steps):
 	for j in range(steps):

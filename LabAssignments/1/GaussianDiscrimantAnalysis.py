@@ -55,30 +55,30 @@ print("E when E0=E1")
 print(covariance_mat)
 
 
+inv_cov=np.linalg.pinv(covariance_mat)
 def exp_term(x):
 	# probability y=1
 	global myu0
 	global myu1
 	global phi
-	global covariance_mat
-	t0=((x- myu0.reshape(np.shape(x)[0],1)).T).dot(np.linalg.pinv(covariance_mat)).dot(x- myu0.reshape(np.shape(x)[0],1))
-	t1=((x- myu1.reshape(np.shape(x)[0],1)).T).dot(np.linalg.pinv(covariance_mat)).dot(x- myu1.reshape(np.shape(x)[0],1))
+	global inv_cov
+	t0=((x- myu0.reshape(np.shape(x)[0],1)).T).dot(inv_cov).dot(x- myu0.reshape(np.shape(x)[0],1))
+	t1=((x- myu1.reshape(np.shape(x)[0],1)).T).dot(inv_cov).dot(x- myu1.reshape(np.shape(x)[0],1))
 	# p=-float(t0-t1)/2
 	# return(1/(1+((1- phi)/phi)*np.exp(p)))
 	return(t0-t1)
 
+
+c0=np.linalg.det(covariance_mat0)
+c1=np.linalg.det(covariance_mat1)
+a=np.linalg.pinv(covariance_mat0)-np.linalg.pinv(covariance_mat1)
+b=(myu1.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat1))-(myu0.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat0))
+c=np.linalg.pinv(covariance_mat1).dot(myu1.reshape(np.shape(X)[1],1))-np.linalg.pinv(covariance_mat0).dot(myu0.reshape(np.shape(X)[1],1))
+d=(myu0.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat0)).dot(myu0.reshape(np.shape(X)[1],1))+(myu1.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat1)).dot(myu1.reshape(np.shape(X)[1],1))-2*math.log((1-phi)/phi)*(math.sqrt(c1/c0))
 def exp_term2(x):
-	global myu0
-	global myu1
-	global phi
-	global covariance_mat0
-	global covariance_mat1
-	c0=np.linalg.det(covariance_mat0)
-	c1=np.linalg.det(covariance_mat1)
-	t0=((x- myu0.reshape(np.shape(x)[0],1)).T).dot(np.linalg.pinv(covariance_mat0)).dot(x- myu0.reshape(np.shape(x)[0],1))
-	t1=((x- myu1.reshape(np.shape(x)[0],1)).T).dot(np.linalg.pinv(covariance_mat1)).dot(x- myu1.reshape(np.shape(x)[0],1))
-	t3=2*math.log((1-phi)/phi)*(math.sqrt(c1/c0))
-	return((t0-t1-t3))
+	global a,b,c,d
+	t=(x.T).dot(a).dot(x)+b.dot(x)+(x.T).dot(c)+d
+	return(float(t))
 
 
 ###############Plots ############################
@@ -86,9 +86,11 @@ def exp_term2(x):
 
 # Part(b and c)
 fig1, ax1 = plt.subplots()
-steps =50
+steps =380
 pltx1=np.linspace(-5,5,steps).reshape((steps,1))
 pltx2=np.linspace(-5,5,steps).reshape((steps,1))
+# pltx1=np.linspace(50,200,steps).reshape((steps,1))
+# pltx2=np.linspace(50,200,steps).reshape((steps,1))
 pltX1_mesh,pltX2_mesh=np.meshgrid(pltx1,pltx2)
 grid=np.zeros((steps,steps))
 approx=0.1
