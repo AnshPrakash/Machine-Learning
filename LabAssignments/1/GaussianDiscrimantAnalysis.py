@@ -39,9 +39,11 @@ for i in range(np.shape(X1)[0]):
 	xi=X1[i].reshape(np.shape(X)[1],1)
 	covariance_mat1=covariance_mat1+xi.dot(xi.T)
 
+
 for i in range(np.shape(X0)[0]):
 	xi=X0[i].reshape(np.shape(X)[1],1)
 	covariance_mat0=covariance_mat0+xi.dot(xi.T)
+
 # Part(a and d)
 # Assuming both are covariance matrices are equal
 covariance_mat=(covariance_mat0+covariance_mat1)*(1/np.shape(X)[0])
@@ -51,8 +53,12 @@ print("E0")
 print(covariance_mat0)
 print("E1")
 print(covariance_mat1)
+# print(np.cov(X1))
 print("E when E0=E1")
 print(covariance_mat)
+# print(X1.cov())
+
+
 
 
 inv_cov=np.linalg.pinv(covariance_mat)
