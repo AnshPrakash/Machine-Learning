@@ -14,7 +14,7 @@ X=np.array([float(x) for x in filex])
 labels=labels.reshape((np.shape(labels)[0]),1)
 X=X.reshape((np.shape(X)[0],1))
 x_std=np.std(X)+0.001
-x_mean=np.std(X)+0.001
+x_mean=np.mean(X)+0.001
 X=(X-x_mean)*(1/x_std)
 # y_std=np.std(labels)+0.001
 # y_mean=np.mean(labels)+0.001
@@ -40,13 +40,16 @@ def BGD(X,labels):
 	m=(np.shape(X)[0])
 	pcost=cost(theta[0],theta[1])
 	mem=[(theta,pcost)]
-	while diff>epsilon:
+	max_iteration=40000
+	iter=0
+	while diff>epsilon and iter<max_iteration:
 		temp=(X.T).dot(labels-X.dot(theta))
 		theta=theta+(learining_rate/m)*temp
 		new_cost=cost(theta[0],theta[1])
 		diff=abs(new_cost- pcost)
 		pcost=new_cost
 		mem.append((theta,pcost))
+		iter+=1
 	return(theta,mem)
 
 
@@ -56,7 +59,7 @@ print(cost(theta[0],theta[1]))
 ############  PLOTS FROM HERE ############################
 
 # Part(a)
-pltx=np.linspace(0,20,50).reshape((50,1))
+pltx=np.linspace(-5,5,50).reshape((50,1))
 pltx=np.hstack((np.ones(np.shape(pltx)[0]).reshape((np.shape(pltx)[0],1)),pltx))
 plty=np.array([(theta.T).dot(pltx[i]) for i in range(np.shape(pltx)[0])])
 
@@ -111,7 +114,7 @@ ax.set_ylabel('theta1')
 ax.set_zlabel('Cost function J(ϴ)')
 ax.set_title('COST FUNCTION')
 ax.plot_surface(th0_mesh,th1_mesh,H, rstride=1, cstride=1, edgecolor='none')
-plt.plot(x,y,'o')
+plt.plot(x,y,z,'o')
 # def animate(i,mem):
 # 	global elements
 # 	x,y,z=[],[],[]

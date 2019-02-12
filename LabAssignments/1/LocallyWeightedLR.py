@@ -16,7 +16,7 @@ X=np.array([float(x) for x in filex])
 Y=Y.reshape((np.shape(Y)[0]),1)
 X=X.reshape((np.shape(X)[0],1))
 x_std=np.std(X)+0.001
-x_mean=np.std(X)+0.001
+x_mean=np.mean(X)+0.001
 X=(X-x_mean)*(1/x_std)
 X=np.hstack((np.ones(np.shape(X)[0]).reshape((np.shape(X)[0],1)),X))
 
