@@ -6,8 +6,13 @@ from mpl_toolkits import mplot3d
 import matplotlib.animation as animation
 
 
-filex=open("./data/weightedX.csv","r")
-filey=open("./data/weightedY.csv","r")
+# filex=open("./data/weightedX.csv","r")
+# filey=open("./data/weightedY.csv","r")
+
+
+filex=open(sys.argv[2],"r")
+filey=open(sys.argv[3],"r")
+tau=float(sys.argv[4])
 
 
 
@@ -49,8 +54,9 @@ def BGD(X,labels):
 
 # Given training set and input x It returns the corresponding Diagonal weight Matrix
 def weightMatrix(x,X):
+	global tau
 	m=np.shape(X)[0]
-	t=0.1 ##Std deiviation
+	t=tau ##Std deiviation
 	W=[float(((x-X[i].reshape(np.shape(X)[1],1)).T).dot((x-X[i].reshape(np.shape(X)[1],1)))) for i in range((m))]
 	W=np.array(W)
 	W=(W*(-1))/(2*t*t)

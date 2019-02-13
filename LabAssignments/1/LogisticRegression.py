@@ -8,9 +8,12 @@ import matplotlib.animation as animation
 
 
 
-filex=open("./data/logisticX.csv","r")
-filey=open("./data/logisticY.csv","r")
+# filex=open("./data/logisticX.csv","r")
+# filey=open("./data/logisticY.csv","r")
 
+
+filex=open(sys.argv[2],"r")
+filey=open(sys.argv[3],"r")
 
 Y=np.array([float(y) for y in filey])
 X=np.array([list(map(float,(x.split(",")))) for x in filex])
