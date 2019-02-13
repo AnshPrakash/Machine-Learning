@@ -6,6 +6,7 @@ import time
 plt.style.use('seaborn-white')
 
 
+interval=0.2
 filex=open("./data/linearX.csv","r")
 filey=open("./data/linearY.csv","r")
 
@@ -34,28 +35,26 @@ def cost(theta0,theta1):
 def BGD(X,labels):
 	theta=np.zeros(np.shape(X)[1]).reshape((np.shape(X)[1],1))
 	diff=10*np.ones(np.shape(X)[1]).reshape((np.shape(X)[1],1))
-	epsilon=0.0000001
+	epsilon=0.00000001
 	diff=float("inf")
 	learining_rate=0.1
 	m=(np.shape(X)[0])
 	pcost=cost(theta[0],theta[1])
 	mem=[(theta,pcost)]
-	max_iteration=40000
 	iter=0
-	while diff>epsilon and iter<max_iteration:
+	while diff>epsilon:
 		temp=(X.T).dot(labels-X.dot(theta))
 		theta=theta+(learining_rate/m)*temp
 		new_cost=cost(theta[0],theta[1])
 		diff=abs(new_cost- pcost)
 		pcost=new_cost
 		mem.append((theta,pcost))
-		iter+=1
 	return(theta,mem)
 
 
 theta,mem=BGD(X,labels)
 print(cost(theta[0],theta[1]))
-
+print(theta)
 ############  PLOTS FROM HERE ############################
 
 # Part(a)
@@ -90,23 +89,16 @@ ax2 = fig2.add_subplot(111)
 ax2.set_xlabel('theta0')
 ax2.set_ylabel('theta1')
 ax2.set_title('COST FUNCTION CONTOURS')
-plt.contour(th0_mesh,th1_mesh,H, colors='blue')
+ax2.contour(th0_mesh,th1_mesh,H, colors='blue')
 
-
-x,y,z=[],[],[]
+plt.ion()
 for i in range(len(mem)):
-	x.append(float(mem[i][0][0]))
-	y.append(float(mem[i][0][1]))
-	z.append(mem[i][1])
-
-plt.plot(x,y,'o')
+	plt.pause(interval)
+	ax2.plot([float(mem[i][0][0])],[float(mem[i][0][1])],'^',color='r')
 	# iter+=1
 
-
-
-
-
-
+# plt.show()
+plt.ioff()
 fig3 = plt.figure()
 ax = fig3.add_subplot(111,projection='3d')
 ax.set_xlabel('theta0')
@@ -114,23 +106,20 @@ ax.set_ylabel('theta1')
 ax.set_zlabel('Cost function J(ϴ)')
 ax.set_title('COST FUNCTION')
 ax.plot_surface(th0_mesh,th1_mesh,H, rstride=1, cstride=1, edgecolor='none')
-plt.plot(x,y,z,'o')
-# def animate(i,mem):
-# 	global elements
-# 	x,y,z=[],[],[]
-# 	for i in range(len(mem)):
-# 		x.append(float(mem[i][0][0]))
-# 		y.append(float(mem[i][0][1]))
-# 		z.append(mem[i][1])
-# 		time.sleep(2)
-# 	if elements>=len(mem):
-# 		elements=1
-# 	ax.plot(x,y,z,'^',color='r')
-# 	ax.clear()
-# 	ax.plot_surface(th0_mesh,th1_mesh,H, rstride=1, cstride=1,cmap='viridis', edgecolor='none')
+# plt.plot(x,y,z,'o')
+plt.ion()
+for i in range(len(mem)):
+	# x.append(float(mem[i][0][0]))
+	# y.append(float(mem[i][0][1]))
+	# z.append(mem[i][1])
+	plt.pause(interval)
+	ax.plot([float(mem[i][0][0])],[float(mem[i][0][1])],mem[i][1],'^',color='r')
 
+
+
+		
 # ani=animation.FuncAnimation(fig,animate,fargs=(mem),interval=2000)
 
-
 # plt.plot(x,y,'^',color='b')
-plt.show()
+plt.ioff()
+# plt.show()

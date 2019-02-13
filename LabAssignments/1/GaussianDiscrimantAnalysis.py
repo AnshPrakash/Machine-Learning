@@ -13,20 +13,21 @@ filey=open("./data/q4y.dat","r")
 Y=np.array([1 if y.strip()=="Alaska" else 0 for y in filey])
 Y=Y.reshape(np.shape(Y)[0],1)
 X=np.array([list(map(float,(x.strip().split()))) for x in filex])
-x_std=np.std(X,axis=0)+0.001
-x_mean=np.mean(X,axis=0)+0.001
-X=(X-x_mean)*(1/x_std)
-# X=np.hstack((np.ones(np.shape(X)[0]).reshape((np.shape(X)[0],1)),X))
+# x_std=np.std(X,axis=0)+0.001
+# x_mean=np.mean(X,axis=0)+0.001
+# X=(X-x_mean)*(1/x_std)
+
 ####Shuffluing Data ###################
 data=np.hstack((X,Y))
 np.random.shuffle(data)
 X=(data[:,0:-1])
 Y=data[:,-1].reshape(np.shape(X)[0],1)
 Y=Y.astype(int)
+# print(X[(Y==0).reshape(np.shape(Y)[0]),:])
 myu0=np.mean(X[(Y==0).reshape(np.shape(Y)[0]),:],axis=0).reshape(1,np.shape(X)[1])
 myu1=np.mean(X[(Y==1).reshape(np.shape(Y)[0]),:],axis=0).reshape(1,np.shape(X)[1])
-# print(myu0)
-# print(myu1)
+print(myu0)
+print(myu1)
 n=np.shape(X)[1]
 
 phi=np.mean(Y)
@@ -51,8 +52,10 @@ covariance_mat0=covariance_mat0*(1/np.shape(X0)[0])
 covariance_mat1=covariance_mat1*(1/np.shape(X1)[0])
 print("E0")
 print(covariance_mat0)
+# print(np.linalg.pinv(covariance_mat0))
 print("E1")
 print(covariance_mat1)
+# print(np.linalg.pinv(covariance_mat1))
 # print(np.cov(X1))
 print("E when E0=E1")
 print(covariance_mat)
@@ -77,13 +80,14 @@ def exp_term(x):
 
 c0=np.linalg.det(covariance_mat0)
 c1=np.linalg.det(covariance_mat1)
-a=np.linalg.pinv(covariance_mat0)-np.linalg.pinv(covariance_mat1)
-b=(myu1.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat1))-(myu0.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat0))
-c=np.linalg.pinv(covariance_mat1).dot(myu1.reshape(np.shape(X)[1],1))-np.linalg.pinv(covariance_mat0).dot(myu0.reshape(np.shape(X)[1],1))
-d=(myu0.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat0)).dot(myu0.reshape(np.shape(X)[1],1))+(myu1.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat1)).dot(myu1.reshape(np.shape(X)[1],1))-2*math.log((1-phi)/phi)*(math.sqrt(c1/c0))
+a=np.linalg.pinv(covariance_mat1)-np.linalg.pinv(covariance_mat0)
+b=-2*((myu1.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat1))-(myu0.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat0)))
+# c=np.linalg.pinv(covariance_mat1).dot(myu1.reshape(np.shape(X)[1],1))-np.linalg.pinv(covariance_mat0).dot(myu0.reshape(np.shape(X)[1],1))
+d=-1*(myu0.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat0)).dot(myu0.reshape(np.shape(X)[1],1))+(myu1.reshape(np.shape(X)[1],1).T).dot(np.linalg.pinv(covariance_mat1)).dot(myu1.reshape(np.shape(X)[1],1))-math.log((1-phi)/phi)
+
 def exp_term2(x):
 	global a,b,c,d
-	t=(x.T).dot(a).dot(x)+b.dot(x)+(x.T).dot(c)+d
+	t=(x.T).dot(a).dot(x)+b.dot(x)+d
 	return(float(t))
 
 
@@ -93,13 +97,11 @@ def exp_term2(x):
 # Part(b and c)
 fig1, ax1 = plt.subplots()
 steps =380
-pltx1=np.linspace(-5,5,steps).reshape((steps,1))
-pltx2=np.linspace(-5,5,steps).reshape((steps,1))
-# pltx1=np.linspace(50,200,steps).reshape((steps,1))
-# pltx2=np.linspace(50,200,steps).reshape((steps,1))
+pltx1=np.linspace(60,200,steps).reshape((steps,1))
+pltx2=np.linspace(300,500,steps).reshape((steps,1))
 pltX1_mesh,pltX2_mesh=np.meshgrid(pltx1,pltx2)
 grid=np.zeros((steps,steps))
-approx=0.1
+approx=0.01
 
 for i in range(steps):
 	for j in range(steps):
@@ -120,6 +122,7 @@ ax1.set_title('GDA Decsion Boundaries')
 
 # Part(d) already done Above with part(a)
 # Part(e)
+approx2=0.01
 grid2=np.zeros((steps,steps))
 for i in range(steps):
 	for j in range(steps):
@@ -127,8 +130,8 @@ for i in range(steps):
 		x2 = pltX2_mesh[i][j]
 		x=np.array([x1,x2]).reshape(np.shape(X)[1],1)
 		grid2[i][j] = abs(exp_term2(x))
-xq1=pltX1_mesh[(grid2<approx)]
-xq2=pltX1_mesh[(grid2<approx)]
+xq1=pltX1_mesh[(grid2<approx2)]
+xq2=pltX2_mesh[(grid2<approx2)]
 ax1.plot(xq1,xq2,'-',label="E0!=E1")
 ax1.legend(loc='upper left')
 plt.show()

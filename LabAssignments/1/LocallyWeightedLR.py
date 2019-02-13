@@ -50,7 +50,7 @@ def BGD(X,labels):
 # Given training set and input x It returns the corresponding Diagonal weight Matrix
 def weightMatrix(x,X):
 	m=np.shape(X)[0]
-	t=0.8 ##Std deiviation
+	t=0.1 ##Std deiviation
 	W=[float(((x-X[i].reshape(np.shape(X)[1],1)).T).dot((x-X[i].reshape(np.shape(X)[1],1)))) for i in range((m))]
 	W=np.array(W)
 	W=(W*(-1))/(2*t*t)
