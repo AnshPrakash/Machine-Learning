@@ -3,7 +3,10 @@ import pandas as pd
 import numpy as np
 from math import log
 from sklearn.metrics import confusion_matrix
+import time 
 
+
+start_time=time.time()
 with open('./ass2_data/train.csv') as f:
 	df = pd.read_csv(f)
 
@@ -81,3 +84,5 @@ test_reviews = reviews[:N_test]
 # stars=stars[:N]
 test_stars = list(map(int,stars[:N_test]))
 print("Test Set accuracy",getaccuracy(test_stars,test_reviews))
+end_time=time.time()
+print("Time taken by the code is ",end_time - start_time)
