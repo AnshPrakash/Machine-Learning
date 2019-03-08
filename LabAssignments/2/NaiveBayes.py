@@ -14,7 +14,7 @@ reviews = list(df["text"])
 stars = list(df["stars"]) #class 
 
 # Consider this many traning points
-N =len(df) 
+N = len(df) 
 reviews = reviews[:N]
 # stars=stars[:N]
 stars = list(map(int,stars[:N]))
@@ -60,7 +60,10 @@ def getaccuracy(label_stars,test_reviews):
 		p=list(map(log,p_stars))
 		for j in range(5):
 			for word in text:
-				p[j]+=log((1+vocab[word][j])/(V+doc_words[j]))
+				try:
+					p[j]+=log((1+vocab[word][j])/(V+doc_words[j]))
+				except Exception as e:
+					p[j]+=log(1/(V+doc_words[j]))
 		pred_star=np.argmax(p)+1
 		pred[i] = pred_star
 		corr=corr+1 if label_stars[i]==pred_star else corr
@@ -79,10 +82,11 @@ test_reviews = list(df2["text"])
 test_stars = list(df2["stars"]) #class 
 
 # Consider this many traning points
-N_test = len(df2) 
-test_reviews = reviews[:N_test]
+N_test =len(df2) 
+test_reviews = test_reviews[:N_test]
 # stars=stars[:N]
-test_stars = list(map(int,stars[:N_test]))
+test_stars = list(map(int,test_stars[:N_test]))
+
 print("Test Set accuracy",getaccuracy(test_stars,test_reviews))
 end_time=time.time()
 print("Time taken by the code is ",end_time - start_time)
