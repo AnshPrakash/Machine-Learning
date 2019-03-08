@@ -79,7 +79,7 @@ test_reviews = list(df2["text"])
 test_stars = list(df2["stars"]) #class 
 
 # Consider this many traning points
-N_test =len(df2) 
+N_test = len(df2) 
 test_reviews = reviews[:N_test]
 # stars=stars[:N]
 test_stars = list(map(int,stars[:N_test]))
