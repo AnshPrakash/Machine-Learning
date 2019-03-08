@@ -4,7 +4,8 @@ __pycache__/
 ass2_data/
 mnist/
 ../1/
+libsvm-3.23/
 
 # Packages #
-
+*.pyc
 *.zip
