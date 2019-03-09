@@ -6,6 +6,8 @@ from cvxopt import matrix
 from cvxopt import solvers
 from sklearn.metrics import confusion_matrix
 
+# get the support vector
+
 entry_no=7
 start_time=time.time()
 with open('./mnist/train.csv') as f:
@@ -21,6 +23,13 @@ m=len(Y)
 C = 1.0
 Y=Y.reshape(m,1)
 n=28*28 #28 X 28 dimension images
+
+def getSupportVectorIndices(alphas,e=1e-4):
+     vec=[]
+     for i in range(m):
+             if abs(alphas[i])>e:
+                     vec.append(i)
+     return(vec)
 
 print(m)
 
@@ -50,24 +59,14 @@ sol=solvers.qp(P,q,G,h,A,b)
 alphas=np.array(sol['x'])
 
 
-# get the support vector
-def getSupportVectorIndices(alphas,e=1e-4):
-     vec=[]
-     for i in range(m):
-             if abs(alphas[i])>e:
-                     vec.append(i)
-     return(vec)
-
-sv=getSupportVectorIndices(alphas,1e-4)
+sv=getSupportVectorIndices(alphas,1e-7)
 
 w = (X.T).dot(alphas*Y)
-bias = 0.0
-for i in sv:
-	if alphas[i]<C:
-		bias = Y[i] - np.dot(w.T,X[i].reshape(n,1))
-		break
+
+
+bias=np.mean(Y[sv]-X[sv]@w)
 # Prdiction with Linear Kernel
-pred=np.sign(X@w+b)
+pred=np.sign(X@w+bias)
 conf=confusion_matrix(Y,pred,labels=[-1,1])
 
 training_accuracy=(np.trace(conf)/np.sum(conf))*100
@@ -82,15 +81,43 @@ alphas_g = np.array(sol_g['x'])
 
 sv_idx=getSupportVectorIndices(alphas_g,1e-4)
 bias_g=0
-for j in sv_idx:
+
+# for j in sv_idx:
+# 	if alphas_g[j]<C:
+# 		tp=X-X[j,:]
+# 		temp= float(np.sum(Y*alphas_g*np.exp(-gamma*np.diagonal(tp@(tp.T)))))
+# 		bias_g = Y[j] - temp
+# 		break
+
+count_g=1
+temp_XXT=X@(X.T)
+# taking mean over 100 points
+for j in sv_idx[:100]:
 	if alphas_g[j]<C:
-		tp=X-X[j].reshape(n,1)
-		temp= float(np.sum(Y[i]*alphas_g*np.exp(-gamma*np.diagonal(tp@(tp.T)))))
-		bias_g = Y[j] - temp
-		break
+		bias_g+=Y[j]-float(np.sum(Y*alphas_g*np.exp(-gamma*(temp_XXT[:,j]))))
+		count_g+=1
+bias_g=bias_g/count_g
 
 
+def accuracy_gaussian(Z,y_labels):
+	# Z is Test set m2 X n numpy array
+	x_d =np.diagonal(X@(X.T)).reshape(len(X),1)
+	z_d =np.diagonal(Z@(Z.T)).reshape(len(Z),1)
+	S =-2*X@(Z.T)
+	tp=alphas_g*Y
+	pred=[0]*len(Z)
+	for i in range(len(Z)):
+		pred[i]=np.sign(np.sum(tp*(np.exp(-gamma*(x_d+z_d[i]+S[:,i].reshape(m,1)))))+bias_g)
+	conf_g=confusion_matrix(y_labels,pred,labels=[-1,1])
+	print(conf_g)
+	accuracy=(np.trace(conf_g)/np.sum(conf_g))*100
+	print("Accuracy of the set : ",accuracy)
+	return(accuracy)
 
+print("Training set accuracy by Gaussian Kernel",accuracy_gaussian(X,Y))
+
+
+			
 
 
 
