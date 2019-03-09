@@ -23,7 +23,7 @@ C = 1.0
 n = 28*28 #28 X 28 dimension images
 
 Y_p = list(df1.iloc[:,-1])
-X_p = df1.values.tolist()
+X_p = df1.iloc[:,:-1].values.tolist()
 
 # Linear Kernel
 svm_model.predict = lambda self,y,x: svm_predict(y, x, self)[0][0]
@@ -43,7 +43,7 @@ w = (X[np.array(support_vector_indices)-1].T).dot(Y[np.array(support_vector_indi
 if model.get_labels()[1] == -1:  # just to make vector point to positive examples
     w = -w
     b = -b
-print("Training accuracy using Linear Kernel",training_accuracy)
+print("Training accuracy using Linear Kernel",training_accuracy*100)
 
 # Gaussian Kernel
 G=0.05 #as given in assignment
@@ -57,5 +57,7 @@ model = svm_train(prob, param)
 
 
 training_accuracy = model.predict(Y_p,X_p)
-print("Training Accuracy using Gassian Kerenl ",training_accuracy)
+print("Training Accuracy using Gassian Kerenl ",training_accuracy*100)
 
+# Usefull link
+# https://www.csie.ntu.edu.tw/~cjlin/libsvm/faq.html#f201
