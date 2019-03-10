@@ -6,8 +6,8 @@ from cvxopt import matrix
 from cvxopt import solvers
 from sklearn.metrics import confusion_matrix
 
+start_time=time.time()
 # get the support vector
-
 entry_no=7
 start_time=time.time()
 with open('./mnist/train.csv') as f:
@@ -16,7 +16,7 @@ with open('./mnist/train.csv') as f:
 df1=(df.loc[(df.iloc[:,-1]==entry_no) | (df.iloc[:,-1]==(entry_no+1)%10)])
 
 df1.iloc[:,-1]=df1.iloc[:,-1].replace({entry_no:1,(entry_no+1)%10:-1})
-df.iloc[:,:-1]=df.iloc[:,:-1]/255
+df1.iloc[:,:-1]=df1.iloc[:,:-1]/255
 Y = np.array(df1.iloc[:,-1])
 X = np.array(df1.iloc[:,:-1])
 m=len(Y)
@@ -80,23 +80,23 @@ sol_g    = solvers.qp(P_g,q,G,h,A,b)
 alphas_g = np.array(sol_g['x'])
 
 sv_idx=getSupportVectorIndices(alphas_g,1e-4)
+
+
 bias_g=0
-
-# for j in sv_idx:
-# 	if alphas_g[j]<C:
-# 		tp=X-X[j,:]
-# 		temp= float(np.sum(Y*alphas_g*np.exp(-gamma*np.diagonal(tp@(tp.T)))))
-# 		bias_g = Y[j] - temp
-# 		break
-
 count_g=1
 temp_XXT=X@(X.T)
-# taking mean over 100 points
-for j in sv_idx[:100]:
-	if alphas_g[j]<C:
-		bias_g+=Y[j]-float(np.sum(Y*alphas_g*np.exp(-gamma*(temp_XXT[:,j]))))
+temp_xxt_d=np.diagonal(temp_XXT).reshape(m,1)
+# taking mean over support_vectors
+buf= 10 if len(sv_idx)>10 else len(sv_idx)
+
+for i in sv_idx[:buf]:
+	if alphas_g[i]<C:
+		bias_g+=Y[i]-np.sum(Y*alphas_g*(np.exp(-gamma*(temp_xxt_d +temp_xxt_d[i] +temp_XXT[:,i].reshape(m,1)))))
 		count_g+=1
 bias_g=bias_g/count_g
+
+
+
 
 
 def accuracy_gaussian(Z,y_labels):
@@ -116,6 +116,31 @@ def accuracy_gaussian(Z,y_labels):
 
 print("Training set accuracy by Gaussian Kernel",accuracy_gaussian(X,Y))
 
+
+
+# Test Data
+with open('./mnist/test.csv') as f:
+	df_test = pd.read_csv(f,header=None)
+
+df1_test=(df_test.loc[(df_test.iloc[:,-1]==entry_no) | (df_test.iloc[:,-1]==(entry_no+1)%10)])
+
+df1_test.iloc[:,-1]=df1_test.iloc[:,-1].replace({entry_no:1,(entry_no+1)%10:-1})
+df1_test.iloc[:,:-1]=df1_test.iloc[:,:-1]/255
+Y_test = np.array(df1_test.iloc[:,-1])
+X_test = np.array(df1_test.iloc[:,:-1])
+m_test=len(Y_test)
+Y_test=Y_test.reshape(m_test,1)
+
+
+conf_test=confusion_matrix(Y_test,np.sign(X_test@w+bias),labels=[-1,1])
+
+test_accuracy=(np.trace(conf_test)/np.sum(conf_test))*100
+print("test set accuracy with Linear Kernel: ",test_accuracy)
+
+print("Test set accuracy with GaussianKernel: ",accuracy_gaussian(X_test,Y_test))
+
+end_time=time.time()
+print("Time Taken ",end_time- start_time)
 
 			
 

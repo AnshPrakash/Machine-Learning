@@ -14,6 +14,7 @@ with open('./mnist/train.csv') as f:
 df1 = (df.loc[(df.iloc[:,-1] == entry_no) | (df.iloc[:,-1] == (entry_no+1)%10)])
 
 df1.iloc[:,-1]=df1.iloc[:,-1].replace({entry_no:1,(entry_no+1)%10:-1})
+df1.iloc[:,:-1]=df1.iloc[:,:-1]/255
 
 Y = np.array(df1.iloc[:,-1])
 X = np.array(df1.iloc[:,:-1])

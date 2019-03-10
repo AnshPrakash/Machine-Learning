@@ -9,6 +9,7 @@ with open('./mnist/train.csv') as f:
 	df = pd.read_csv(f,header=None)
 
 M=len(df)
+df.iloc[:,:-1]=df.iloc[:,:-1]/255
 
 Y_train = list(df.iloc[:,-1])
 X_train = df.iloc[:,:-1].values.tolist()
@@ -51,9 +52,7 @@ def training_models(C):
 				else:
 					wins[k][j] +=1
 	preds=len(wins[0]) - np.argmax(np.flip(wins,1),axis=1)-1
-	print("Training set Accuracy :",np.mean(preds==Y_train))
-
-	
+	print("Training set Accuracy :",np.mean(preds==Y_train))	
 	return(models)
 
 
