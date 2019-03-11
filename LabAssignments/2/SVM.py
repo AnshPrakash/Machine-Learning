@@ -25,11 +25,11 @@ Y=Y.reshape(m,1)
 n=28*28 #28 X 28 dimension images
 
 def getSupportVectorIndices(alphas,e=1e-4):
-     vec=[]
-     for i in range(m):
-             if abs(alphas[i])>e:
-                     vec.append(i)
-     return(vec)
+	vec=[]
+	for i in range(m):
+		if abs(alphas[i])>e:
+			vec.append(i)
+	return(vec)
 
 print(m)
 
