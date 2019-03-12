@@ -11,6 +11,7 @@ import sys
 
 
 
+
 start_time=time.time()
 
 part_num=sys.argv[3]
@@ -29,17 +30,21 @@ if part_num=="a" or part_num =="c":
 	reviews = reviews[:N]
 	# stars=stars[:N]
 	stars = list(map(int,stars[:N]))
+	df={}
 
 	
 	##Making Vocablary
 	vocab = {}
 	for review in reviews:
-		text = re.sub(r'[^\w\s]','',review.lower())
-		text = text.split()
-		# text = review.split()
-		for word in text:
-			if word not in vocab:
-				vocab[word] = [0.0,0.0,0.0,0.0,0.0]
+		try:
+			text = re.sub(r'[^\w\s]','',review.lower())
+			text = text.split()
+			# text = review.split()
+			for word in text:
+				if word not in vocab:
+					vocab[word] = [0.0,0.0,0.0,0.0,0.0]
+		except Exception as e:
+			print(review)
 
 
 	V=len(vocab)
@@ -47,13 +52,17 @@ if part_num=="a" or part_num =="c":
 	p_stars = [0.0,0.0,0.0,0.0,0.0]
 	doc_words = [0,0,0,0,0] ## total number of word in each class
 	for i in range(len(reviews)):
-		text = re.sub(r'[^\w\s]','',reviews[i].lower())
-		text = text.split()
-		# text = reviews[i].split()
-		doc_words[stars[i]-1] += len(text)
-		p_stars[stars[i]-1] += 1.0
-		for word in text:
-			vocab[word][stars[i]-1] += 1.0
+		try:
+			text = re.sub(r'[^\w\s]','',reviews[i].lower())
+			text = text.split()
+			# text = reviews[i].split()
+			doc_words[stars[i]-1] += len(text)
+			p_stars[stars[i]-1] += 1.0
+			for word in text:
+				vocab[word][stars[i]-1] += 1.0
+		except Exception as e:
+			print(review)
+
 
 	print(p_stars)
 	p_stars = list(map(lambda x:x/N,p_stars))
@@ -90,9 +99,9 @@ if part_num=="a" or part_num =="c":
 			corr=corr+1 if label_stars[i]==pred_star else corr
 		# get the confusion matrix
 		c=confusion_matrix(label_stars,pred,labels=[1,2,3,4,5])
-		f1=f1_score(label_stars, pred, labels=[1,2,3,4,5],average=None)
 		print("Confusion matrix")
 		print(c)
+		f1=f1_score(label_stars, pred, labels=[1,2,3,4,5],average=None)
 		print("F1 array ")
 		print(f1)
 		print("F1 macro ",np.mean(f1))
@@ -100,8 +109,9 @@ if part_num=="a" or part_num =="c":
 		return(corr/M)
 
 
-	print("Training Set accuracy",getaccuracy(stars,reviews))
-
+	# print("Training Set accuracy",getaccuracy(stars,reviews))
+	stars=[]
+	reviews=[]
 
 	# Load test data
 	with open(test_loc) as f:
@@ -112,6 +122,7 @@ if part_num=="a" or part_num =="c":
 
 	# Consider this many test points
 	N_test = len(df2) 
+	df2={}
 	test_reviews = test_reviews[:N_test]
 	# stars=stars[:N]
 	test_stars = list(map(int,test_stars[:N_test]))
