@@ -33,12 +33,9 @@ def json_reader(fname):
 
 def _stem(doc, p_stemmer, en_stop, return_tokens):
     doc=re.sub(r'[^\w\s]','',doc.lower())
-    # doc=re.sub('[!@#$().`~/*-+<>?&^]','',doc.lower())
-    # tokens = word_tokenize(doc.lower())
-    tokens = doc.split()
-    # stopped_tokens = filter(lambda token: token not in en_stop, tokens)
-    # stemmed_tokens = map(lambda token: p_stemmer.stem(token), stopped_tokens)
-    stemmed_tokens=tokens
+    tokens = doc.lower().split()
+    stopped_tokens = filter(lambda token: token not in en_stop, tokens)
+    stemmed_tokens = map(p_stemmer.stem, stopped_tokens)
     if not return_tokens:
         return ' '.join(stemmed_tokens)
     return list(stemmed_tokens)
