@@ -97,6 +97,10 @@ def getaccuracy(label_stars,test_reviews):
 	# get the confusion matrix
 	c=confusion_matrix(label_stars,pred,labels=[1,2,3,4,5])
 	print(c)
+	f1=f1_score(label_stars, pred, labels=[1,2,3,4,5],average=None)
+	print("F1 array ")
+	print(f1)
+	print("F1 macro ",np.mean(f1))
 	return(corr/M)
 
 print("Training Set accuracy",getaccuracy(stars,reviews))
