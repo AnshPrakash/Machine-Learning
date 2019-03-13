@@ -5,12 +5,16 @@ import pandas as pd
 from cvxopt import matrix
 from cvxopt import solvers
 from sklearn.metrics import confusion_matrix
+import sys
 
 
+test_f =sys.argv[2]
+train_f=sys.argv[1]
 start_time=time.time()
-with open('./mnist/train.csv') as f:
+with open(train_f) as f:
 	df = pd.read_csv(f,header=None)
 
+# df=df.sample(n=1000)
 M=len(df)
 df.iloc[:,:-1]=df.iloc[:,:-1]/255
 
@@ -78,8 +82,6 @@ def get_trained_model(i,j,C):
 
 
 
-
-
 def training_models(C):
 	# creatin 45 separate classification problems
 	models   = {}
@@ -96,10 +98,11 @@ def prediction_uni(Z,model):
 	x_d =np.diagonal(X@(X.T)).reshape(len(X),1)
 	z_d =np.diagonal(Z@(Z.T)).reshape(len(Z),1)
 	S =-2*X@(Z.T)
+	m=len(S)
 	tp=alphas_g*Y
 	pred=[0]*len(Z)
 	for i in range(len(Z)):
-		pred[i]=np.sign(np.sum(tp*(np.exp(-gamma*(x_d+z_d[i]+S[:,i].reshape(m,1)))))+bias_g)
+		pred[i]=float(np.sign(np.sum(tp*(np.exp(-gamma*(x_d+z_d[i]+S[:,i].reshape(m,1)))))+bias_g))
 	return(pred)
 
 def prediction_multi(X,Y_labels,models):
@@ -109,15 +112,39 @@ def prediction_multi(X,Y_labels,models):
 	for i in range(9):
 		for j in range(i+1,10):
 			results=prediction_uni(X,models[(i,j)])
-			for k in range(len(results[0])):
-				if results[0][k]==1:
+			for k in range(len(results)):
+				if results[k]==1:
 					wins[k][i] +=1
 				else:
 					wins[k][j] +=1
 	preds=len(wins[0]) - np.argmax(np.flip(wins,1),axis=1)-1
-	print("Training set Accuracy :",np.mean(preds==Y_labels))
+	return(preds)
 
 models=training_models(1.0)
-prediction_multi(X_train,Y_train,models)
+preds=prediction_multi(X_train,Y_train,models)
+print("Training set Accuracy :",np.mean(preds==Y_train))
+conf=confusion_matrix(Y_train,preds,labels=[0,1,2,3,4,5,6,7,8,9])
+print(conf)
+
+# Test Set accuracy
+with open(test_f) as f:
+	df1 = pd.read_csv(f,header=None)
+
+# df1=df1.sample(n=100)
+
+m_test=len(df1)
+df1.iloc[:,:-1]=df1.iloc[:,:-1]/255
+
+Y_test = np.array(df1.iloc[:,-1]).reshape(m_test,1)
+X_test = np.array(df1.iloc[:,:-1])
+
+
+preds=prediction_multi(X_test,Y_test,models)
+print("Test Set Accuracy: ",np.mean(preds==Y_test))
+# print(Y_test,preds)
+conf=confusion_matrix(Y_test,preds,labels=[0,1,2,3,4,5,6,7,8,9])
+print(conf)
+
+
 end_time=time.time()
 print("Time taken :",end_time- start_time)

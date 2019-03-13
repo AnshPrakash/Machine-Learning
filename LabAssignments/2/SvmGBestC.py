@@ -1,16 +1,20 @@
-# Assignment2 part2 2 (d)
+# Assignment2 part2 2 (d) python3
 import time 
 import numpy as np
 import pandas as pd
 import sys
 from sklearn.utils import shuffle
+from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt 
 sys.path.append("./libsvm-3.23/python")
 from svmutil import *
 
 
+test_f =sys.argv[2]
+train_f=sys.argv[1]
+
 start_time=time.clock()
-with open('./mnist/train.csv') as f:
+with open(train_f) as f:
 	df = pd.read_csv(f,header=None)
 
 M=len(df)
@@ -57,7 +61,7 @@ for C in C_pos:
 
 
 
-with open('./mnist/test.csv') as f:
+with open(test_f) as f:
 	df = pd.read_csv(f,header=None)
 
 df.iloc[:,:-1]=df.iloc[:,:-1]/255

@@ -1,16 +1,20 @@
 # Python 3
+# python3 SVM.py ./mnist/train.csv ./mnist/test.csv
 import time 
 import numpy as np
 import pandas as pd
 from cvxopt import matrix
 from cvxopt import solvers
 from sklearn.metrics import confusion_matrix
+import sys
 
 start_time=time.time()
 # get the support vector
-entry_no=7
+entry_no=0
 start_time=time.time()
-with open('./mnist/train.csv') as f:
+test_f =sys.argv[2]
+train_f=sys.argv[1]
+with open(train_f) as f:
 	df = pd.read_csv(f,header=None)
 
 df1=(df.loc[(df.iloc[:,-1]==entry_no) | (df.iloc[:,-1]==(entry_no+1)%10)])
@@ -70,7 +74,8 @@ pred=np.sign(X@w+bias)
 conf=confusion_matrix(Y,pred,labels=[-1,1])
 
 training_accuracy=(np.trace(conf)/np.sum(conf))*100
-
+print("Confusion Matrix for Linear Kernel")
+print(conf)
 
 print("Training accuracy for Linear Kernel ",training_accuracy)
 
@@ -119,7 +124,7 @@ print("Training set accuracy by Gaussian Kernel",accuracy_gaussian(X,Y))
 
 
 # Test Data
-with open('./mnist/test.csv') as f:
+with open(test_f) as f:
 	df_test = pd.read_csv(f,header=None)
 
 df1_test=(df_test.loc[(df_test.iloc[:,-1]==entry_no) | (df_test.iloc[:,-1]==(entry_no+1)%10)])
@@ -136,6 +141,8 @@ conf_test=confusion_matrix(Y_test,np.sign(X_test@w+bias),labels=[-1,1])
 
 test_accuracy=(np.trace(conf_test)/np.sum(conf_test))*100
 print("test set accuracy with Linear Kernel: ",test_accuracy)
+print("Confusion Matrix for Linear Kernel on Test data")
+print(conf_test)
 
 print("Test set accuracy with GaussianKernel: ",accuracy_gaussian(X_test,Y_test))
 
