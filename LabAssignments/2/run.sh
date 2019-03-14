@@ -7,6 +7,7 @@ if [[ $1 == 1 ]]; then
 	elif [[ $4 == "d" ]]; then
 		time python3 NaiveBayesStemming.py $2 $3
 	elif [[ $4 == "e" ]]; then
+		time python3 naiveBayes_Lemmitization.py $2 $3
 		time python3 NAiVEBAYES2_Bigram.py $2 $3
 	elif [[ $4 == "g" ]]; then
 		time python3 NaiveBayes.py $2 $3 "c"
