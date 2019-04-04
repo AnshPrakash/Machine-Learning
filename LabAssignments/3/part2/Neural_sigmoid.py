@@ -70,12 +70,11 @@ def training_neural_net(features,labels,batch_size,hidden_units,learning_rate):
 				o = sig_derivative(X[k+1]) #X is shifted because X[0] have the inputs
 				O[k] = o
 				deltas[k] = (deltas[k+1]@parameters[k+1])*o
-
 				
 			# parameter updates
 			parameters[0]=parameters[0] + learning_rate*((deltas[0].T)@(X[0]))
 			for j in range(1,len(parameters)):
-				parameters[j]=parameters[j] + learning_rate*((deltas[j].T)@sig_derivative(X[j]))
+				parameters[j]=parameters[j] + learning_rate*((deltas[j].T)@O[j-1])
 
 			print(cost(parameters,X[0],labels_buf))
 	return(parameters)
@@ -94,7 +93,7 @@ features = np.array(df.iloc[:,:-10])
 
 hidden_units=[2,5,2,6]
 batch_size = 100
-learning_rate = 0.1
+learning_rate = 0.01
 parameters= training_neural_net(features,labels,batch_size,hidden_units,learning_rate)
 
 res = forward_propogation(parameters,features)
