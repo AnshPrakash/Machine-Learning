@@ -11,6 +11,8 @@ def sig_derivative(z):
 	return(sigmoid(z)*(1-sigmoid(z)))
 
 
+
+
 def forward_propogation(parameters,input):
 	'''
 		parameters is a dictionary containing parameters  of the neural nets
@@ -21,8 +23,11 @@ def forward_propogation(parameters,input):
 	X = input
 	for i in range(len(parameters)):
 		X = sigmoid(X@(parameters[i].T))
+
 	return(X)
 
+def cost(parameters,input_data,labels):
+	return(np.sum(np.square(labels - forward_propogation(parameters,input_data))))
 
 def training_neural_net(features,labels,batch_size,hidden_units,learning_rate):
 	'''
@@ -36,11 +41,11 @@ def training_neural_net(features,labels,batch_size,hidden_units,learning_rate):
 	features_size = len(features[0])
 	parameters = {}
 	deltas = {}
-	parameters[0] = np.random.rand(hidden_units[0],features_size)/100
+	parameters[0] = np.random.rand(hidden_units[0],features_size)/1000
 	deltas[0] = np.zeros((hidden_units[0],1))
 	# print(parameters[0].shape)
 	for layer in range(1,len(hidden_units)):
-		parameters[layer] = np.random.rand(hidden_units[layer],hidden_units[layer-1])/100
+		parameters[layer] = np.random.rand(hidden_units[layer],hidden_units[layer-1])/1000
 		# print(parameters[layer].shape)
 		deltas[layer] = []
 		# deltas[layer] = np.zeros((hidden_units[layer],1))
@@ -48,42 +53,31 @@ def training_neural_net(features,labels,batch_size,hidden_units,learning_rate):
 	X =[0]*(len(parameters)+1)
 	# Stochastic Gradient Descent with batch size
 	iters = int(len(features)/batch_size)
-	epochs = 1
+	epochs = 100
 	for _ in range(epochs):
 		for i in range(iters):
 			X[0] = features[i*batch_size:batch_size*(i+1)]
 			labels_buf = labels[i*batch_size:batch_size*(i+1)]
+			O=[0]*len(parameters)
 			for j in range(len(parameters)):
 				X[j+1] = sigmoid(X[j]@(parameters[j].T))
 
+
 			# backpropogation
 			deltas[len(parameters)-1] = (labels_buf - X[-1])
-			
+			O[-1] = deltas[len(parameters) - 1]
 			for k in range(len(parameters)-2,-1,-1):
-				# o = sig_derivative(X[k])
-				o = sig_derivative(X[k+1])
-
-
-				# deltas[k] = ((parameters[k+1].T)@deltas[k+1])*(np.sum(o.T,axis=1).reshape(o.shape[1],1))
-				print("hello ",k)
-				print("delta k+1",deltas[k+1].shape)
-				print("param k+1",parameters[k+1].shape)
-				print("o ",o.shape)
-				print("X[k] ",X[k].shape)
+				o = sig_derivative(X[k+1]) #X is shifted because X[0] have the inputs
+				O[k] = o
 				deltas[k] = (deltas[k+1]@parameters[k+1])*o
-				print("delta[k] ",deltas[k].shape)
 
 				
 			# parameter updates
-			for j in range(len(parameters)):
-				print(j)
-				parameters[j]=parameters[j] + (deltas[j].T)@sig_derivative(X[j])
+			parameters[0]=parameters[0] + learning_rate*((deltas[0].T)@(X[0]))
+			for j in range(1,len(parameters)):
+				parameters[j]=parameters[j] + learning_rate*((deltas[j].T)@sig_derivative(X[j]))
 
-
-		z=(labels - forward_propogation(parameters,features)) 
-		print(np.sum(z*z)/2)
-		for j in range(len(parameters)):
-			print(parameters[j].shape)
+			print(cost(parameters,X[0],labels_buf))
 	return(parameters)
 
 
