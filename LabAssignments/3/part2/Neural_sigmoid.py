@@ -26,7 +26,7 @@ def forward_propogation(parameters,input):
 	'''
 	X = input
 	for i in range(len(parameters)):
-		X = sigmoid(X@(parameters[i].T))
+		X = sigmoid(X@(parameters[i][0].T) + parameters[i][1])
 	return(X)
 	
 
@@ -50,11 +50,11 @@ def training_neural_net(features,labels,batch_size,hidden_units,learning_rate):
 	parameters = {}
 	deltas = {}
 	np.random.seed(1)
-	parameters[0] = np.random.rand(hidden_units[0],features_size)
+	parameters[0] = [np.random.rand(hidden_units[0],features_size),np.random.rand(1,hidden_units[0])]
 	deltas[0] = np.zeros((hidden_units[0],1))
 	# print(parameters[0].shape)
 	for layer in range(1,len(hidden_units)):
-		parameters[layer] = np.random.rand(hidden_units[layer],hidden_units[layer-1])
+		parameters[layer] = [np.random.rand(hidden_units[layer],hidden_units[layer-1]),np.random.rand(1,hidden_units[layer])]
 		# print(parameters[layer].shape)
 		deltas[layer] = []
 		# deltas[layer] = np.zeros((hidden_units[layer],1))
@@ -63,14 +63,14 @@ def training_neural_net(features,labels,batch_size,hidden_units,learning_rate):
 	X =[0]*(len(parameters)+1)
 	# Stochastic Gradient Descent with batch size
 	iters = int(len(features)/batch_size)
-	epochs = 1000
+	epochs = 3000
 	for _ in range(epochs):
 		for i in range(iters):
 			X[0] = features[i*batch_size:batch_size*(i+1)]
 			labels_buf = labels[i*batch_size:batch_size*(i+1)]
 			O=[0]*len(parameters)
 			for j in range(len(parameters)):
-				X[j+1] = sigmoid(X[j]@(parameters[j].T))
+				X[j+1] = sigmoid(X[j]@(parameters[j][0].T) + parameters[j][1])
 
 
 			# backpropogation
@@ -79,12 +79,12 @@ def training_neural_net(features,labels,batch_size,hidden_units,learning_rate):
 			# O[-1] = deltas[len(parameters) - 1]
 			for k in range(len(parameters)-2,-1,-1):
 				O[k] = sig_derivative(X[k+1]) #X is shifted because X[0] have the inputs
-				deltas[k] = (deltas[k+1]@parameters[k+1])*O[k]
+				deltas[k] = (deltas[k+1]@parameters[k+1][0])*O[k]
 				
 			# parameter updates
-			# parameters[0]=parameters[0] - learning_rate*((deltas[0].T)@(X[0]))
 			for j in range(len(parameters)):
-				parameters[j]=parameters[j] - learning_rate*((deltas[j].T)@X[j])
+				parameters[j][0] = parameters[j][0] - learning_rate*((deltas[j].T)@X[j])
+				parameters[j][1] = parameters[j][1] - learning_rate*(np.sum(deltas[j],axis = 0 ,keepdims =True))
 
 		print(cost(parameters,X[0],labels_buf))
 	return(parameters)
@@ -111,10 +111,12 @@ batch_size    =  25
 learning_rate = 0.1
 parameters    = training_neural_net(features,labels,batch_size,hidden_units,learning_rate)
 
+
 # parameters = {}
-# parameters[0] = np.random.rand(hidden_units[0],len(features[0]))
+# parameters[0] = [np.random.rand(hidden_units[0],len(features[0])),np.random.rand(1,hidden_units[0])]
 # for layer in range(1,len(hidden_units)):
-# 	parameters[layer] = np.random.rand(hidden_units[layer],hidden_units[layer-1])
+# 	parameters[layer] = [np.random.rand(hidden_units[layer],hidden_units[layer-1]),np.random.rand(1,hidden_units[layer])]
+
 print("Trained Parameters")	
 pprint(parameters)
 res  = forward_propogation(parameters,features)
