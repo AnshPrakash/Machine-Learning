@@ -1,0 +1,120 @@
+max_depth ,min_sample_split,min_sample_leaf: None 2 1
+ accuracy : 67.91131855309219 %
+max_depth ,min_sample_split,min_sample_leaf: None 2 10
+ accuracy : 78.56309384897483 %
+max_depth ,min_sample_split,min_sample_leaf: None 2 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: None 10 1
+ accuracy : 69.56159359893316 %
+max_depth ,min_sample_split,min_sample_leaf: None 10 10
+ accuracy : 78.56309384897483 %
+max_depth ,min_sample_split,min_sample_leaf: None 10 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: None 100 1
+ accuracy : 77.89631605267545 %
+max_depth ,min_sample_split,min_sample_leaf: None 100 10
+ accuracy : 79.56326054342391 %
+max_depth ,min_sample_split,min_sample_leaf: None 100 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 100 2 1
+ accuracy : 66.82780463410568 %
+max_depth ,min_sample_split,min_sample_leaf: 100 2 10
+ accuracy : 78.61310218369728 %
+max_depth ,min_sample_split,min_sample_leaf: 100 2 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 100 10 1
+ accuracy : 69.728288048008 %
+max_depth ,min_sample_split,min_sample_leaf: 100 10 10
+ accuracy : 78.56309384897483 %
+max_depth ,min_sample_split,min_sample_leaf: 100 10 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 100 100 1
+ accuracy : 77.89631605267545 %
+max_depth ,min_sample_split,min_sample_leaf: 100 100 10
+ accuracy : 79.56326054342391 %
+max_depth ,min_sample_split,min_sample_leaf: 100 100 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 80 2 1
+ accuracy : 67.22787131188531 %
+max_depth ,min_sample_split,min_sample_leaf: 80 2 10
+ accuracy : 78.54642440406735 %
+max_depth ,min_sample_split,min_sample_leaf: 80 2 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 80 10 1
+ accuracy : 69.06151025170861 %
+max_depth ,min_sample_split,min_sample_leaf: 80 10 10
+ accuracy : 77.8296382730455 %
+max_depth ,min_sample_split,min_sample_leaf: 80 10 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 80 100 1
+ accuracy : 77.89631605267545 %
+max_depth ,min_sample_split,min_sample_leaf: 80 100 10
+ accuracy : 79.56326054342391 %
+max_depth ,min_sample_split,min_sample_leaf: 80 100 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 70 2 1
+ accuracy : 69.51158526421071 %
+max_depth ,min_sample_split,min_sample_leaf: 70 2 10
+ accuracy : 78.61310218369728 %
+max_depth ,min_sample_split,min_sample_leaf: 70 2 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 70 10 1
+ accuracy : 68.3280546757793 %
+max_depth ,min_sample_split,min_sample_leaf: 70 10 10
+ accuracy : 78.56309384897483 %
+max_depth ,min_sample_split,min_sample_leaf: 70 10 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 70 100 1
+ accuracy : 77.89631605267545 %
+max_depth ,min_sample_split,min_sample_leaf: 70 100 10
+ accuracy : 79.56326054342391 %
+max_depth ,min_sample_split,min_sample_leaf: 70 100 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 50 2 1
+ accuracy : 68.0113352225371 %
+max_depth ,min_sample_split,min_sample_leaf: 50 2 10
+ accuracy : 78.56309384897483 %
+max_depth ,min_sample_split,min_sample_leaf: 50 2 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 50 10 1
+ accuracy : 68.62810468411402 %
+max_depth ,min_sample_split,min_sample_leaf: 50 10 10
+ accuracy : 78.57976329388231 %
+max_depth ,min_sample_split,min_sample_leaf: 50 10 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 50 100 1
+ accuracy : 77.89631605267545 %
+max_depth ,min_sample_split,min_sample_leaf: 50 100 10
+ accuracy : 79.56326054342391 %
+max_depth ,min_sample_split,min_sample_leaf: 50 100 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 10 2 1
+ accuracy : 76.82947157859643 %
+max_depth ,min_sample_split,min_sample_leaf: 10 2 10
+ accuracy : 79.16319386564427 %
+max_depth ,min_sample_split,min_sample_leaf: 10 2 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 10 10 1
+ accuracy : 76.29604934155692 %
+max_depth ,min_sample_split,min_sample_leaf: 10 10 10
+ accuracy : 79.8966494415736 %
+max_depth ,min_sample_split,min_sample_leaf: 10 10 50
+ accuracy : 80.11335222537089 %
+max_depth ,min_sample_split,min_sample_leaf: 10 100 1
+ accuracy : 77.99633272212036 %
+max_depth ,min_sample_split,min_sample_leaf: 10 100 10
+ accuracy : 80.14669111518586 %
+max_depth ,min_sample_split,min_sample_leaf: 10 100 50
+ accuracy : 80.11335222537089 %
+
+
+Best Model with best accuracy on validation set
+DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=10,
+            max_features=None, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=10, min_samples_split=100,
+            min_weight_fraction_leaf=0.0, presort=False, random_state=None,
+            splitter='best')   80.14669111518586 %
+Accuracy on Test Set by the best Model is  80.530088348058 %
+[[4436  251]
+ [ 917  395]]
