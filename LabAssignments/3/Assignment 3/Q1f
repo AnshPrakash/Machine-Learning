@@ -1,0 +1,76 @@
+n_estimators ,bootstrap,max_features: 10 True sqrt
+ accuracy : 78.19636606101017 %
+n_estimators ,bootstrap,max_features: 10 True log2
+ accuracy : 77.99633272212036 %
+n_estimators ,bootstrap,max_features: 10 True None
+ accuracy : 76.27937989664944 %
+n_estimators ,bootstrap,max_features: 10 False sqrt
+ accuracy : 76.59609934989165 %
+n_estimators ,bootstrap,max_features: 10 False log2
+ accuracy : 76.746124354059 %
+n_estimators ,bootstrap,max_features: 10 False None
+ accuracy : 68.71145190865144 %
+n_estimators ,bootstrap,max_features: 50 True sqrt
+ accuracy : 78.36306051008502 %
+n_estimators ,bootstrap,max_features: 50 True log2
+ accuracy : 78.21303550591765 %
+n_estimators ,bootstrap,max_features: 50 True None
+ accuracy : 77.56292715452575 %
+n_estimators ,bootstrap,max_features: 50 False sqrt
+ accuracy : 77.12952158693116 %
+n_estimators ,bootstrap,max_features: 50 False log2
+ accuracy : 77.36289381563594 %
+n_estimators ,bootstrap,max_features: 50 False None
+ accuracy : 68.49474912485414 %
+n_estimators ,bootstrap,max_features: 100 True sqrt
+ accuracy : 78.52975495915986 %
+n_estimators ,bootstrap,max_features: 100 True log2
+ accuracy : 78.24637439573262 %
+n_estimators ,bootstrap,max_features: 100 True None
+ accuracy : 78.21303550591765 %
+n_estimators ,bootstrap,max_features: 100 False sqrt
+ accuracy : 77.49624937489583 %
+n_estimators ,bootstrap,max_features: 100 False log2
+ accuracy : 77.22953825637606 %
+n_estimators ,bootstrap,max_features: 100 False None
+ accuracy : 68.57809634939157 %
+n_estimators ,bootstrap,max_features: 140 True sqrt
+ accuracy : 78.56309384897483 %
+n_estimators ,bootstrap,max_features: 140 True log2
+ accuracy : 78.26304384064011 %
+n_estimators ,bootstrap,max_features: 140 True None
+ accuracy : 78.66311051841973 %
+n_estimators ,bootstrap,max_features: 140 False sqrt
+ accuracy : 77.34622437072845 %
+n_estimators ,bootstrap,max_features: 140 False log2
+ accuracy : 77.66294382397066 %
+n_estimators ,bootstrap,max_features: 140 False None
+ accuracy : 68.29471578596433 %
+n_estimators ,bootstrap,max_features: 200 True sqrt
+ accuracy : 78.67977996332722 %
+n_estimators ,bootstrap,max_features: 200 True log2
+ accuracy : 78.01300216702784 %
+n_estimators ,bootstrap,max_features: 200 True None
+ accuracy : 78.52975495915986 %
+n_estimators ,bootstrap,max_features: 200 False sqrt
+ accuracy : 77.27954659109851 %
+n_estimators ,bootstrap,max_features: 200 False log2
+ accuracy : 77.5129188198033 %
+n_estimators ,bootstrap,max_features: 200 False None
+ accuracy : 68.41140190031672 %
+
+
+Best Model with best accuracy on validation set
+RandomForestClassifier(bootstrap=True, class_weight=None, criterion='entropy',
+            max_depth=None, max_features='sqrt', max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=200, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)   78.67977996332722 %
+Accuracy on Test Set by the best Model is  78.47974662443741 %
+[[4263  424]
+ [ 867  445]]
+Accuracy on Training Set by the best Model is  100.0 %
+[[14056     0]
+ [    0  3943]]

@@ -2,8 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import cross_val_score
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
 from sklearn import tree
@@ -63,29 +62,33 @@ Y_test = df_t['Y']
 
 
 
-max_depths = [None,100,80,70,50,10]
-min_samples_leafs  = [1,10,50] 
-min_samples_splits = [2,10,100]
+n_estimators_l = [10,50,100,140,200]
+bootstrap  = [True,False] 
+max_features_l = ['sqrt','log2',None]
+
+
 
 
 acc = 0.0
 best_model = []
-for max_depth in max_depths:
-	for min_samples_split in min_samples_splits:
-		for min_samples_leaf in min_samples_leafs:
-			clf = DecisionTreeClassifier(	criterion = 'entropy', 
-											max_depth = max_depth,
-											min_samples_leaf = min_samples_leaf,
-											min_samples_split = min_samples_split,
-										)
+for n_estimators in n_estimators_l:
+	for b in bootstrap:
+		for max_features in max_features_l:
+			clf = RandomForestClassifier(	criterion = 'entropy',
+											bootstrap = b, 
+								            max_features = max_features,
+								            n_estimators = n_estimators
+				            			)
+
 			clf.fit(X_train, Y_train)
+
 			pred = clf.predict(X_val)
 			pred = list(map(int,pred))
 			Y_val = list(map(int,Y_val))
 			conf_mat = confusion_matrix(Y_val,pred,labels=[0,1])
 			accuracy = (np.sum(np.diagonal(conf_mat))/np.sum(conf_mat))*100
 			(best_model,acc) = (clf,accuracy) if accuracy>acc else (best_model,acc)
-			print( "max_depth ,min_sample_split,min_sample_leaf:", max_depth,min_samples_split,min_samples_leaf)
+			print( "n_estimators ,bootstrap,max_features:", n_estimators, b ,max_features)
 			print(" accuracy :",accuracy,"%")
 
 
