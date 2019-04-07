@@ -1,4 +1,4 @@
-# Q2 b
+# Q2 c
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -87,7 +87,7 @@ def training_neural_net(features,labels,batch_size,hidden_units,learning_rate):
 				parameters[j][0] = parameters[j][0] - learning_rate*((deltas[j].T)@X[j])
 				parameters[j][1] = parameters[j][1] - learning_rate*(np.sum(deltas[j],axis = 0 ,keepdims =True))
 
-		print("J :",cost(parameters,X[0],labels_buf))
+		# print("J :",cost(parameters,X[0],labels_buf))
 	return(parameters)
 
 
@@ -137,12 +137,14 @@ for hidden_units in hidden_units_l:
 	# print("Accuracy is ",accuracy(pred,np.argmax(labels,axis=1))*100,"%")
 	print("Hidden Units in a Single layer ",hidden_units[0])
 	conf_mat = confusion_matrix(np.argmax(labels,axis=1),pred,labels=[0,1,2,3,4,5,6,7,8,9])
+	print("Accuracy on Training Set ",accuracy(pred,np.argmax(labels,axis=1))*100,"%")
 	print("Training Confusion Matrix")
 	print(conf_mat)
 	res  = forward_propogation(parameters,features_test)
 	pred = prediction(res)
 	test_acc.append(accuracy(pred,np.argmax(labels_test,axis=1))*100)
 	conf_mat = confusion_matrix(np.argmax(labels_test,axis=1),pred,labels=[0,1,2,3,4,5,6,7,8,9])
+	print("Accuracy on Test Set ",accuracy(pred,np.argmax(labels_test,axis=1))*100,"%")
 	print("Confusion Matrix for Test Set")
 	print(conf_mat)
 
