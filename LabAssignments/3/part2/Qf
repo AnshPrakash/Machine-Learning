@@ -1,0 +1,359 @@
+#################  Q2c with Adaptive Learning ############
+Learning Rate  0.1
+New Learning Rate  0.02
+New Learning Rate  0.004
+New Learning Rate  0.0008000000000000001
+New Learning Rate  0.00016000000000000004
+New Learning Rate  3.2000000000000005e-05
+New Learning Rate  6.400000000000001e-06
+New Learning Rate  1.2800000000000005e-06
+New Learning Rate  2.5600000000000007e-07
+New Learning Rate  5.120000000000001e-08
+New Learning Rate  1.0240000000000001e-08
+New Learning Rate  2.0480000000000004e-09
+New Learning Rate  4.096e-10
+New Learning Rate  8.192000000000001e-11
+New Learning Rate  1.6384e-11
+New Learning Rate  3.2768000000000003e-12
+New Learning Rate  6.5536e-13
+Ran  938  epochs
+Trained Parameters
+Hidden Units in a Single  layer  5
+Accuracy on Training Set  58.2327069172331 %
+Training Confusion Matrix
+[[10713  1780     0     0     0     0     0     0     0     0]
+ [ 6748  3851     0     0     0     0     0     0     0     0]
+ [  495   711     0     0     0     0     0     0     0     0]
+ [  263   250     0     0     0     0     0     0     0     0]
+ [   70    23     0     0     0     0     0     0     0     0]
+ [   48     6     0     0     0     0     0     0     0     0]
+ [   15    21     0     0     0     0     0     0     0     0]
+ [    1     5     0     0     0     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]
+ [    2     3     0     0     0     0     0     0     0     0]]
+Accuracy on Test Set  57.2951 %
+Confusion Matrix for Test Set
+[[424341  76868      0      0      0      0      0      0      0      0]
+ [273888 148610      0      0      0      0      0      0      0      0]
+ [ 21251  26371      0      0      0      0      0      0      0      0]
+ [ 10070  11051      0      0      0      0      0      0      0      0]
+ [  2977    908      0      0      0      0      0      0      0      0]
+ [  1685    311      0      0      0      0      0      0      0      0]
+ [   408   1016      0      0      0      0      0      0      0      0]
+ [    48    182      0      0      0      0      0      0      0      0]
+ [     9      3      0      0      0      0      0      0      0      0]
+ [     1      2      0      0      0      0      0      0      0      0]]
+New Learning Rate  0.02
+New Learning Rate  0.004
+New Learning Rate  0.0008000000000000001
+New Learning Rate  0.00016000000000000004
+New Learning Rate  3.2000000000000005e-05
+New Learning Rate  6.400000000000001e-06
+New Learning Rate  1.2800000000000005e-06
+New Learning Rate  2.5600000000000007e-07
+New Learning Rate  5.120000000000001e-08
+New Learning Rate  1.0240000000000001e-08
+New Learning Rate  2.0480000000000004e-09
+New Learning Rate  4.096e-10
+New Learning Rate  8.192000000000001e-11
+New Learning Rate  1.6384e-11
+New Learning Rate  3.2768000000000003e-12
+New Learning Rate  6.5536e-13
+Ran  1732  epochs
+Trained Parameters
+Hidden Units in a Single  layer  10
+Accuracy on Training Set  78.1327469012395 %
+Training Confusion Matrix
+[[11568   925     0     0     0     0     0     0     0     0]
+ [ 2626  7973     0     0     0     0     0     0     0     0]
+ [   29  1177     0     0     0     0     0     0     0     0]
+ [   33   480     0     0     0     0     0     0     0     0]
+ [   75    18     0     0     0     0     0     0     0     0]
+ [   50     4     0     0     0     0     0     0     0     0]
+ [    1    35     0     0     0     0     0     0     0     0]
+ [    0     6     0     0     0     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]]
+Accuracy on Test Set  76.5844 %
+Confusion Matrix for Test Set
+[[456998  44211      0      0      0      0      0      0      0      0]
+ [113651 308846      0      0      0      0      0      0      0      1]
+ [  1448  46174      0      0      0      0      0      0      0      0]
+ [  1687  19434      0      0      0      0      0      0      0      0]
+ [  3342    543      0      0      0      0      0      0      0      0]
+ [  1797    199      0      0      0      0      0      0      0      0]
+ [     7   1417      0      0      0      0      0      0      0      0]
+ [     7    223      0      0      0      0      0      0      0      0]
+ [     9      3      0      0      0      0      0      0      0      0]
+ [     3      0      0      0      0      0      0      0      0      0]]
+New Learning Rate  0.02
+New Learning Rate  0.004
+New Learning Rate  0.0008000000000000001
+New Learning Rate  0.00016000000000000004
+New Learning Rate  3.2000000000000005e-05
+New Learning Rate  6.400000000000001e-06
+New Learning Rate  1.2800000000000005e-06
+New Learning Rate  2.5600000000000007e-07
+New Learning Rate  5.120000000000001e-08
+New Learning Rate  1.0240000000000001e-08
+New Learning Rate  2.0480000000000004e-09
+New Learning Rate  4.096e-10
+New Learning Rate  8.192000000000001e-11
+New Learning Rate  1.6384e-11
+New Learning Rate  3.2768000000000003e-12
+New Learning Rate  6.5536e-13
+Ran  2273  epochs
+Trained Parameters
+Hidden Units in a Single  layer  15
+Accuracy on Training Set  85.50179928028788 %
+Training Confusion Matrix
+[[12148   345     0     0     0     0     0     0     0     0]
+ [ 1363  9236     0     0     0     0     0     0     0     0]
+ [    6  1200     0     0     0     0     0     0     0     0]
+ [   12   501     0     0     0     0     0     0     0     0]
+ [   79    14     0     0     0     0     0     0     0     0]
+ [   52     2     0     0     0     0     0     0     0     0]
+ [    0    36     0     0     0     0     0     0     0     0]
+ [    0     6     0     0     0     0     0     0     0     0]
+ [    4     1     0     0     0     0     0     0     0     0]
+ [    4     1     0     0     0     0     0     0     0     0]]
+Accuracy on Test Set  84.05 %
+Confusion Matrix for Test Set
+[[481686  19523      0      0      0      0      0      0      0      0]
+ [ 63684 358814      0      0      0      0      0      0      0      0]
+ [   340  47282      0      0      0      0      0      0      0      0]
+ [   619  20502      0      0      0      0      0      0      0      0]
+ [  3391    494      0      0      0      0      0      0      0      0]
+ [  1921     75      0      0      0      0      0      0      0      0]
+ [     0   1424      0      0      0      0      0      0      0      0]
+ [     0    230      0      0      0      0      0      0      0      0]
+ [     9      3      0      0      0      0      0      0      0      0]
+ [     1      2      0      0      0      0      0      0      0      0]]
+New Learning Rate  0.02
+New Learning Rate  0.004
+New Learning Rate  0.0008000000000000001
+New Learning Rate  0.00016000000000000004
+New Learning Rate  3.2000000000000005e-05
+New Learning Rate  6.400000000000001e-06
+New Learning Rate  1.2800000000000005e-06
+New Learning Rate  2.5600000000000007e-07
+New Learning Rate  5.120000000000001e-08
+New Learning Rate  1.0240000000000001e-08
+New Learning Rate  2.0480000000000004e-09
+New Learning Rate  4.096e-10
+New Learning Rate  8.192000000000001e-11
+New Learning Rate  1.6384e-11
+New Learning Rate  3.2768000000000003e-12
+New Learning Rate  6.5536e-13
+Ran  2011  epochs
+Trained Parameters
+Hidden Units in a Single  layer  20
+Accuracy on Training Set  88.94442223110755 %
+Training Confusion Matrix
+[[12308   185     0     0     0     0     0     0     0     0]
+ [  662  9937     0     0     0     0     0     0     0     0]
+ [    1  1205     0     0     0     0     0     0     0     0]
+ [    0   513     0     0     0     0     0     0     0     0]
+ [   70    23     0     0     0     0     0     0     0     0]
+ [   50     4     0     0     0     0     0     0     0     0]
+ [    0    36     0     0     0     0     0     0     0     0]
+ [    0     6     0     0     0     0     0     0     0     0]
+ [    4     1     0     0     0     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]]
+Accuracy on Test Set  86.763 %
+Confusion Matrix for Test Set
+[[483121  18088      0      0      0      0      0      0      0      0]
+ [ 37965 384508      0      0      0      0      0      0      0     25]
+ [   148  47472      0      0      0      0      0      0      0      2]
+ [     0  21121      0      0      0      0      0      0      0      0]
+ [  2967    913      0      0      0      0      0      0      0      5]
+ [  1934     62      0      0      0      0      0      0      0      0]
+ [     0   1421      2      0      0      0      1      0      0      0]
+ [     0    213     10      0      0      0      7      0      0      0]
+ [     7      5      0      0      0      0      0      0      0      0]
+ [     3      0      0      0      0      0      0      0      0      0]]
+New Learning Rate  0.02
+New Learning Rate  0.004
+New Learning Rate  0.0008000000000000001
+New Learning Rate  0.00016000000000000004
+New Learning Rate  3.2000000000000005e-05
+Trained Parameters
+Hidden Units in a Single  layer  25
+Accuracy on Training Set  92.51499400239905 %
+Training Confusion Matrix
+[[12493     0     0     0     0     0     0     0     0     0]
+ [    2 10597     0     0     0     0     0     0     0     0]
+ [    0  1206     0     0     0     0     0     0     0     0]
+ [    0   513     0     0     0     0     0     0     0     0]
+ [   35    15     0     0    42     0     0     0     0     1]
+ [   42    11     0     0     1     0     0     0     0     0]
+ [    0    34     2     0     0     0     0     0     0     0]
+ [    0     6     0     0     0     0     0     0     0     0]
+ [    1     1     0     0     2     0     0     0     1     0]
+ [    0     0     0     0     0     0     0     0     0     5]]
+Accuracy on Test Set  91.5519 %
+Confusion Matrix for Test Set
+[[496392   4456      0      0    311     26      0      0      5     19]
+ [  3696 418728      0      0     68      0      0      0      2      4]
+ [     8  47541     66      0      0      0      7      0      0      0]
+ [     0  21046     74      0      0      0      0      1      0      0]
+ [  3097    485      0      0    276      0      0      0      2     25]
+ [  1955     38      0      0      1      2      0      0      0      0]
+ [     0    844    525      0      0      0     55      0      0      0]
+ [     0     96    103      0      0      0     31      0      0      0]
+ [     6      3      0      0      3      0      0      0      0      0]
+ [     2      1      0      0      0      0      0      0      0      0]]
+
+
+
+
+#################  Q2d Adaptive Learning ############
+Learning Rate  0.1
+New Learning Rate  0.02
+New Learning Rate  0.004
+New Learning Rate  0.0008000000000000001
+New Learning Rate  0.00016000000000000004
+New Learning Rate  3.2000000000000005e-05
+New Learning Rate  6.400000000000001e-06
+New Learning Rate  1.2800000000000005e-06
+New Learning Rate  2.5600000000000007e-07
+New Learning Rate  5.120000000000001e-08
+New Learning Rate  1.0240000000000001e-08
+New Learning Rate  2.0480000000000004e-09
+New Learning Rate  4.096e-10
+New Learning Rate  8.192000000000001e-11
+New Learning Rate  1.6384e-11
+New Learning Rate  3.2768000000000003e-12
+New Learning Rate  6.5536e-13
+Ran  183  epochs
+Trained Parameters
+Hidden Units in a Two  layer  5
+Accuracy on Training Set  49.95201919232307 %
+Training Confusion Matrix
+[[12493     0     0     0     0     0     0     0     0     0]
+ [10599     0     0     0     0     0     0     0     0     0]
+ [ 1206     0     0     0     0     0     0     0     0     0]
+ [  513     0     0     0     0     0     0     0     0     0]
+ [   93     0     0     0     0     0     0     0     0     0]
+ [   54     0     0     0     0     0     0     0     0     0]
+ [   36     0     0     0     0     0     0     0     0     0]
+ [    6     0     0     0     0     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]]
+Accuracy on Test Set  50.1209 %
+Confusion Matrix for Test Set
+[[501209      0      0      0      0      0      0      0      0      0]
+ [422498      0      0      0      0      0      0      0      0      0]
+ [ 47622      0      0      0      0      0      0      0      0      0]
+ [ 21121      0      0      0      0      0      0      0      0      0]
+ [  3885      0      0      0      0      0      0      0      0      0]
+ [  1996      0      0      0      0      0      0      0      0      0]
+ [  1424      0      0      0      0      0      0      0      0      0]
+ [   230      0      0      0      0      0      0      0      0      0]
+ [    12      0      0      0      0      0      0      0      0      0]
+ [     3      0      0      0      0      0      0      0      0      0]]
+Trained Parameters
+Hidden Units in a Two  layer  10
+Accuracy on Training Set  84.73810475809677 %
+Training Confusion Matrix
+[[12193   300     0     0     0     0     0     0     0     0]
+ [ 1599  9000     0     0     0     0     0     0     0     0]
+ [   17  1189     0     0     0     0     0     0     0     0]
+ [   30   483     0     0     0     0     0     0     0     0]
+ [   92     1     0     0     0     0     0     0     0     0]
+ [   54     0     0     0     0     0     0     0     0     0]
+ [    0    36     0     0     0     0     0     0     0     0]
+ [    0     6     0     0     0     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]]
+Accuracy on Test Set  83.9623 %
+Confusion Matrix for Test Set
+[[487178  14031      0      0      0      0      0      0      0      0]
+ [ 70053 352445      0      0      0      0      0      0      0      0]
+ [   844  46778      0      0      0      0      0      0      0      0]
+ [  1222  19899      0      0      0      0      0      0      0      0]
+ [  3750    135      0      0      0      0      0      0      0      0]
+ [  1942     54      0      0      0      0      0      0      0      0]
+ [     4   1420      0      0      0      0      0      0      0      0]
+ [     1    229      0      0      0      0      0      0      0      0]
+ [    12      0      0      0      0      0      0      0      0      0]
+ [     3      0      0      0      0      0      0      0      0      0]]
+Trained Parameters
+Hidden Units in a Two  layer  15
+Accuracy on Training Set  93.9624150339864 %
+Training Confusion Matrix
+[[12413    79     0     0     1     0     0     0     0     0]
+ [  339 10206    54     0     0     0     0     0     0     0]
+ [    7   562   601    36     0     0     0     0     0     0]
+ [    9   102   139   263     0     0     0     0     0     0]
+ [   65    11     0     0    17     0     0     0     0     0]
+ [   51     3     0     0     0     0     0     0     0     0]
+ [    0     5     9    22     0     0     0     0     0     0]
+ [    0     3     0     3     0     0     0     0     0     0]
+ [    3     1     0     0     1     0     0     0     0     0]
+ [    5     0     0     0     0     0     0     0     0     0]]
+Accuracy on Test Set  93.0241 %
+Confusion Matrix for Test Set
+[[496120   4810      0      0    279      0      0      0      0      0]
+ [ 16823 402647   2973     55      0      0      0      0      0      0]
+ [   147  23483  22231   1760      0      0      1      0      0      0]
+ [   309   5087   6743   8962      0      0     20      0      0      0]
+ [  3291    316      0      0    278      0      0      0      0      0]
+ [  1971     23      0      0      2      0      0      0      0      0]
+ [     6    230    293    892      0      0      3      0      0      0]
+ [     3     27     16    184      0      0      0      0      0      0]
+ [    10      2      0      0      0      0      0      0      0      0]
+ [     3      0      0      0      0      0      0      0      0      0]]
+/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:18: RuntimeWarning: overflow encountered in exp
+Trained Parameters
+Hidden Units in a Two  layer  20
+Accuracy on Training Set  99.20431827269093 %
+Training Confusion Matrix
+[[12492     0     0     0     1     0     0     0     0     0]
+ [    0 10597     0     2     0     0     0     0     0     0]
+ [    0    44  1150    12     0     0     0     0     0     0]
+ [    0    11    23   478     0     0     1     0     0     0]
+ [   10     2     0     0    80     1     0     0     0     0]
+ [   52     2     0     0     0     0     0     0     0     0]
+ [    0     0     1    28     0     0     7     0     0     0]
+ [    0     0     0     3     0     0     0     3     0     0]
+ [    4     0     0     0     0     0     0     0     1     0]
+ [    2     0     0     0     0     0     0     0     0     3]]
+Accuracy on Test Set  98.00179999999999 %
+Confusion Matrix for Test Set
+[[499824    262      0      0   1035     37      0      0      3     48]
+ [    89 420796    300   1052     57    149     54      0      1      0]
+ [     0   4105  41120   2377      0      0     20      0      0      0]
+ [     0    313   3763  16881      1      0    162      1      0      0]
+ [  2515     85      0      1   1239     20      0      0      8     17]
+ [  1988      1      0      0      6      1      0      0      0      0]
+ [     0     10    278   1027      0      0     99     10      0      0]
+ [     0      0      2    169      0      0      1     58      0      0]
+ [     7      0      0      0      5      0      0      0      0      0]
+ [     1      0      0      0      2      0      0      0      0      0]]
+Trained Parameters
+Hidden Units in a Two  layer  25
+Accuracy on Training Set  99.7560975609756 %
+Training Confusion Matrix
+[[12493     0     0     0     0     0     0     0     0     0]
+ [    2 10597     0     0     0     0     0     0     0     0]
+ [    0     0  1202     4     0     0     0     0     0     0]
+ [    0     0    10   501     0     0     2     0     0     0]
+ [    2     0     0     0    86     5     0     0     0     0]
+ [   14     0     0     0     2    38     0     0     0     0]
+ [    0     0     0    10     0     0    26     0     0     0]
+ [    0     0     0     2     0     0     4     0     0     0]
+ [    0     0     0     0     1     3     0     0     1     0]
+ [    0     0     0     0     0     0     0     0     0     5]]
+Accuracy on Test Set  97.8151 %
+Confusion Matrix for Test Set
+[[498635     13      0      0    973   1543      0      1      5     39]
+ [   792 420550    601     51     87    328     29     59      0      1]
+ [     4   2063  42542   2987      0      0     24      2      0      0]
+ [     0    583   5685  14741      0      5     99      8      0      0]
+ [  2517      0      0      0   1069    252      0      0      5     42]
+ [  1949      0      0      0     23     23      0      0      0      1]
+ [     0      0    207    611      0      3    590     13      0      0]
+ [     0      0      0    136      0     13     80      1      0      0]
+ [     5      0      0      0      6      1      0      0      0      0]
+ [     0      0      0      0      3      0      0      0      0      0]]
