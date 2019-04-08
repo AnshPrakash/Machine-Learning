@@ -8,9 +8,12 @@ from functools import reduce
 from sklearn.metrics import confusion_matrix
 import sys
 
+import matplotlib.pyplot as plt
+
+Depth_count ={}
 values_set = {}
 data = []
-num_ofnodes = 0
+# num_ofnodes = 0
 def selectBestAttribute(indices,attributes):
 	'''
 		select the best attribute to split from the data 
@@ -75,16 +78,44 @@ def checkDataPure(indices):
 
 
 def prediction(tree,input):
+	if input[tree[0]] not in values_set[tree[0]]:
+		return(1 if data.iloc[tree[2],-1].mean() >0.5 else 0)
 	if isinstance(tree[1][input[tree[0]]],int):
 		return(tree[1][input[tree[0]]])
 	else:
 		return(prediction(tree[1][input[tree[0]]],input))
 
-def specialPrediction(tree,input):
+def specialPrediction(tree,input,n_nodes,depth):
 	'''
 		for Ploting Node vs Accuracy Graph
 	'''
-	pass
+	if input[tree[0]] not in values_set[tree[0]]:
+		return(1 if data.iloc[tree[2],-1].mean() >0.5 else 0)
+	if isinstance(tree[1][input[tree[0]]],int):
+		return(tree[1][input[tree[0]]])
+	else:
+		if Depth_count[depth] < n_nodes:
+			return(1 if data.iloc[tree[2],-1].mean() >0.5 else 0)
+		else:
+			return(specialPrediction(tree[1][input[tree[0]]],input,n_nodes,depth+1))
+
+	
+
+def countDepthNode(depth,tree):
+	if depth not in Depth_count:
+		Depth_count[depth] = 1
+	else:
+		Depth_count[depth] += 1 
+	for val in tree[1]:
+		if isinstance(tree[1][val],int):
+			if depth+1 not in Depth_count:
+				Depth_count[depth+1] = 1
+			else:
+				Depth_count[depth+1] += 1 
+		else:
+			countDepthNode(depth+1,tree[1][val])
+
+
 
 
 
@@ -94,8 +125,8 @@ def buildDecisionTree(indices,attributes):
 		returns a Dictionary(which actually is a tree)
 	'''
 	tree = {}
-	global num_ofnodes
-	num_ofnodes += 1
+	# global num_ofnodes
+	# num_ofnodes += 1
 	if len(indices)<=10 or len(attributes)==1 or checkDataPure(indices) :
 		return(classify(indices))
 	attribute,ig = selectBestAttribute(indices,attributes)
@@ -112,14 +143,22 @@ def buildDecisionTree(indices,attributes):
 			temp[val] = classify(indices) #No occueence of this value in the data given
 		else:
 			temp[val] = buildDecisionTree(splited_data[val],new_attributes)
-	tree = [attribute,temp]
+	tree = [attribute,temp,indices]
 	return(tree)
 
 
+def getAllNodePredictions(test,max_depth):
+	l = []
+	for d in range(max_depth+1):
+		pred =[]
+		for i in range(len(test)):
+			inp = test.iloc[i]
+			pred.append(specialPrediction(tree,inp,Depth_count[d],0))
+		conf_mat = confusion_matrix(list(test.iloc[:,-1]),pred,labels=[0,1])
+		print(d,(np.sum(np.diagonal(conf_mat))/np.sum(conf_mat))*100)
+		l.append((np.sum(np.diagonal(conf_mat))/np.sum(conf_mat))*100)
+	return(l)
 
-# test_f="credit-cards.test.csv"
-# validation_f = "credit-cards.val.csv"
-# train_f = "credit-cards.train.csv"
 
 
 validation_f = "processesd_credit-cards.val.csv"
@@ -138,9 +177,22 @@ for attribute in attributes:
 	values_set[attribute] =list(set(data[attribute]))
 
 tree = buildDecisionTree(data.index[[True]*len(data)],attributes)
-print("Total Num of Nodes",num_ofnodes)
+print(countDepthNode(0,tree),"Count function")
+total_nodes = 0
+max_depth = -1
+td_count = {}
+for i in Depth_count:
+	td_count[i] = Depth_count[i]
+	total_nodes += Depth_count[i]
+	max_depth+=1
 
-# pprint(tree)
+print("Total Num of Nodes",total_nodes)
+print("Max Depth ",max_depth)
+
+for d in range(1,max_depth+1):
+	Depth_count[d] += Depth_count[d-1]
+
+
 
 pred =[]
 for i in range(len(data)):
@@ -168,5 +220,54 @@ for i in range(len(test_data)):
 conf_mat = confusion_matrix(list(test_data.iloc[:,-1]),pred,labels=[0,1])
 print("Test accuracy ",(np.sum(np.diagonal(conf_mat))/np.sum(conf_mat))*100,"%")
 print(conf_mat)
+
+
+with open(validation_f) as f:
+	df = pd.read_csv(f)
+
+val_data = (df.iloc[1:,1:]) ## contains labels and data both (don't need X0)
+labels_val = df.iloc[:,-1]
+pred =[]
+for i in range(len(val_data)):
+	inp = val_data.iloc[i]
+	pred.append(prediction(tree,inp))
+
+
+conf_mat = confusion_matrix(list(val_data.iloc[:,-1]),pred,labels=[0,1])
+print("Validation Set accuracy ",(np.sum(np.diagonal(conf_mat))/np.sum(conf_mat))*100,"%")
+print(conf_mat)
+
+
+
+val_l = getAllNodePredictions(val_data,max_depth)
+temp_l=[]
+for d  in range(max_depth+1):
+	temp_l+=[val_l[d]]*td_count[d]
+
+val_l = temp_l
+test_l = getAllNodePredictions(test_data,max_depth)
+temp_l=[]
+for d  in range(max_depth+1):
+	temp_l+=[test_l[d]]*td_count[d]
+test_l = temp_l
+train_l = getAllNodePredictions(data,max_depth)
+temp_l=[]
+for d  in range(max_depth):
+	temp_l+=[train_l[d]]*td_count[d]
+train_l = temp_l
+
+plt.style.use("ggplot")
+plt.figure()
+plt.plot(list(range(1,len(val_l)+1)),val_l,label="Validation accuracy")
+plt.plot(list(range(1,len(test_l)+1)),test_l,label = "Test accuracy")
+plt.plot(list(range(1,len(train_l)+1)),train_l,label = "Training accuracy")
+plt.ylim(0, 100)
+
+
+plt.title('Accuracy Vs Num Of Nodes')
+plt.xlabel("# Nodes")
+plt.ylabel("Accuracy %")
+plt.legend(loc="upper right")
+plt.show()
 
 
