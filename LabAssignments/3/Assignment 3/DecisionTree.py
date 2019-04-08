@@ -1,25 +1,27 @@
 import pandas as pd
 import numpy as np
-from math import log
+from math import log,isnan
 from pprint import pprint
 from itertools import repeat
+import operator
+from functools import reduce
 from sklearn.metrics import confusion_matrix
 import sys
 
 values_set = {}
 data = []
-attributes = []
-
-def selectBestAttribute(indices):
+num_ofnodes = 0
+def selectBestAttribute(indices,attributes):
 	'''
 		select the best attribute to split from the data 
 		return a sting from attributes available
 	'''
-	ig  = list(map(getInformationGain,repeat(indices),attributes))
+	data_tp = data.iloc[indices,:]
+	total = len(data_tp)
+	Py1 = np.mean(data_tp['Y'])
+	ig  = np.array(list(map(getInformationGain,repeat(data_tp),attributes,repeat(Py1))))
 	idx = np.argmax(ig)
 	return(attributes[idx],ig[idx])
-	# return(attributes[np.argmax(list(map(getInformationGain,repeat(indices),attributes)))])
-
 	
 
 def split(attribute,indices):
@@ -38,38 +40,25 @@ def classify(indices):
 		returns the classified label
 	'''
 	data_temp = data.iloc[indices,:]
-	p = sum(data_temp['Y'] ==1)/len(indices)
+	p = np.mean(data_temp['Y'])
 	if p >0.5 :
 		return(1)
 	else: 
 		return(0)
 
-def getInformationGain(indices,attribute):
+def getInformationGain(data_tp,attribute,Py1):
 	'''
 		returns the information gain by splitiing  
 		the data on the given attribute
 	'''
-	data_tp = data.iloc[indices,:]
-	total = len(data_tp)
-	Py1 = sum(data_tp['Y']==1)/total
-	#  py1 == 1 or 0 we don't need to calculate this
-	# print(sum(data['Y']==1))
-	# print(data_tp['Y']==1)
-	# print(data_tp)
-	hy = -(Py1*log(Py1,2) + (1-Py1)*log((1-Py1),2))
-	hy_x = 0.0
-	for val in values_set[attribute]:
-		# print(data[attribute] == values_set[attribute][val])
-		df_temp = data_tp[data_tp[attribute] == val]
-		px = len(df_temp)/total
-		if px != 0:
-			py1_x = sum(df_temp['Y'] == 1)/len(df_temp)
-			if py1_x == 0 or py1_x==1:
-				pass
-			else:
-				hy_x -= px*(py1_x*log(py1_x,2) + (1-py1_x)*log((1-py1_x),2))
-
-	informationGain = hy -hy_x
+	y_entropy       = -(Py1*(np.log2(Py1)) + (1-Py1)*np.log2(1-Py1))
+	children        = list(map(lambda val: data_tp[data_tp[attribute]==val].iloc[:,-1] ,values_set[attribute]))
+	px_children     = list(map(lambda df:len(df)/len(data_tp),children))
+	cond_py1x       = list(map(lambda lb: np.mean(lb),children))
+	entopies        = list(map(lambda p: 0 if (p==0 or p==1 or isnan(p))  else -p*np.log2(p)-(1-p)*np.log2(1-p),cond_py1x))
+	avg_ent         = list(map(operator.mul,entopies,px_children))
+	hy_x            = reduce(operator.add,avg_ent)
+	informationGain = y_entropy - hy_x
 	return(informationGain)
 
 
@@ -77,8 +66,11 @@ def checkDataPure(indices):
 	'''	
 		check if the data is pure or not
 	'''
-	labels = data.iloc[indices,-1]
-	return(False if len(set(labels)) > 1 else True )
+	if len(indices)>0:
+		labels = data.iloc[indices,-1]
+		return(np.all(labels  == labels[indices[0]]))
+	else:
+		return(True)
 
 
 
@@ -88,41 +80,52 @@ def prediction(tree,input):
 	else:
 		return(prediction(tree[1][input[tree[0]]],input))
 
+def specialPrediction(tree,input):
+	'''
+		for Ploting Node vs Accuracy Graph
+	'''
+	pass
 
-def buildDecisionTree(indices):
+
+
+def buildDecisionTree(indices,attributes):
 	'''
 		
 		returns a Dictionary(which actually is a tree)
 	'''
 	tree = {}
-	# print(len(indices))
-	# print(indices)
-	if checkDataPure(indices) or len(indices)<=10:
-		# print("bye1")
+	global num_ofnodes
+	num_ofnodes += 1
+	if len(indices)<=10 or len(attributes)==1 or checkDataPure(indices) :
 		return(classify(indices))
-	# print("Hello1")
-	attribute,ig = selectBestAttribute(indices)
+	attribute,ig = selectBestAttribute(indices,attributes)
+	new_attributes = [] 
+	for att in attributes:
+		if att != attribute:
+			new_attributes.append(att)
 	if ig == 0:
-		# print("bye3")
 		return(classify(indices))
 	splited_data =split(attribute,indices)
 	temp = {}
 	for val in splited_data:
-		# print(val)
 		if len(splited_data[val]) == 0:
-			# print("bye2")
 			temp[val] = classify(indices) #No occueence of this value in the data given
 		else:
-			temp[val] = buildDecisionTree(splited_data[val])
+			temp[val] = buildDecisionTree(splited_data[val],new_attributes)
 	tree = [attribute,temp]
-	# print("bye3")
 	return(tree)
 
 
-test_f="credit-cards.test.csv"
-validation_f = "credit-cards.val.csv"
-train_f = "credit-cards.train.csv"
+
+# test_f="credit-cards.test.csv"
+# validation_f = "credit-cards.val.csv"
+# train_f = "credit-cards.train.csv"
+
+
+validation_f = "processesd_credit-cards.val.csv"
+test_f = "processesd_credit-cards.test.csv"
 train_f = "processesd_credit-cards.train.csv"
+
 with open(train_f) as f:
 	df = pd.read_csv(f)
 
@@ -134,10 +137,11 @@ del df
 for attribute in attributes:
 	values_set[attribute] =list(set(data[attribute]))
 
-tree = buildDecisionTree(data.index[[True]*len(data)])
-
+tree = buildDecisionTree(data.index[[True]*len(data)],attributes)
+print("Total Num of Nodes",num_ofnodes)
 
 # pprint(tree)
+
 pred =[]
 for i in range(len(data)):
 	inp = data.iloc[i]
@@ -147,5 +151,22 @@ for i in range(len(data)):
 conf_mat = confusion_matrix(list(data.iloc[:,-1]),pred,labels=[0,1])
 print("accuracy ",(np.sum(np.diagonal(conf_mat))/np.sum(conf_mat))*100,"%")
 print(conf_mat)
+pprint(values_set)
 
-# pprint(values_set)
+
+with open(test_f) as f:
+	df = pd.read_csv(f)
+
+test_data = (df.iloc[1:,1:]) ## contains labels and data both (don't need X0)
+labels_test = df.iloc[:,-1]
+pred =[]
+for i in range(len(test_data)):
+	inp = test_data.iloc[i]
+	pred.append(prediction(tree,inp))
+
+
+conf_mat = confusion_matrix(list(test_data.iloc[:,-1]),pred,labels=[0,1])
+print("Test accuracy ",(np.sum(np.diagonal(conf_mat))/np.sum(conf_mat))*100,"%")
+print(conf_mat)
+
+
